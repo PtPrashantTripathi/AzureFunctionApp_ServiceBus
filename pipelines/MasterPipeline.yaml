@@ -1,0 +1,150 @@
+####################################################################################################################################
+# Ref: Build and TEST .Net core projects 
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
+
+# Unable to use Path filter as it does not fit our expectations. 
+# Please Disable/Pause the Pipeline and make the changes and once the YAML changes are moved to Development 'Enable' the PIpeline
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/repos/azure-repos-git?view=azure-devops&tabs=yaml#behavior-of-triggers-when-new-branches-are-created
+####################################################################################################################################
+
+
+trigger:
+  branches:
+    include:
+    - development
+    - Release/Release*
+    - master
+
+#  paths:
+#    exclude: 
+#      - 'pipelines/*'
+
+###########################################################################################
+#                                       BUILD                                             #
+# Build will run only for changes in 'Development', 'Release/','Master','hotfix-' #
+# branches and PR to Development                                                          #
+###########################################################################################
+stages:
+- stage: Build
+  displayName: 'Build'
+  dependsOn: []
+  condition: and(succeeded(),or(contains(variables['build.sourceBranch'], 'refs/heads/Development'), contains(variables['build.sourceBranch'], 'refs/heads/master'),startsWith(variables['build.sourceBranch'], 'refs/heads/hotfix-'),startsWith(variables['build.sourceBranch'], 'refs/heads/Release/'),eq(variables['Build.Reason'], 'PullRequest')))
+  jobs:
+  - job: BuildJob
+    displayName: Build and Test
+    variables:
+      buildConfiguration: 'Release'
+    pool:
+      name: Build Common Lab 
+    steps:
+    - task: NuGetCommand@2
+      displayName: NuGet Restore
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'config'
+        nugetConfigPath: 'D:\Apex\TFS\nuget.config'
+
+    - task: DotNetCoreCLI@2
+      displayName: DotNetBuild
+      inputs:
+        command: 'build'
+        projects: |
+          **/*.csproj
+          !**/*Test.csproj
+        arguments: '--output publish_output --configuration $(buildConfiguration)'
+        
+    - task: DotNetCoreCLI@2
+      displayName: UnitTest
+      inputs:
+        command: 'test'
+        projects: '**/*Test.csproj'
+        arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+    - task: reportgenerator@4
+      displayName: Generate Report
+      inputs:
+        reports: '**/coverage.cobertura.xml'
+        targetdir: 'coveragereport'
+      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '**/coverage.cobertura.xml'
+        reportDirectory: 'CoverageReport'
+      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+    - task: BuildQualityChecks@8
+      displayName: Build Quality Checks
+      inputs:
+        checkCoverage: true
+        coverageFailOption: 'fixed'
+        coverageType: 'lines'
+        coverageThreshold: '60'
+      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: |
+          **/*.csproj
+          !**/*Test.csproj
+        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory) --runtime win-x64'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+###########################################################################################
+#                                     DEV DEPLOYMENT STAGE                                #
+###########################################################################################
+- template: deploy-stage.yaml
+  parameters: 
+    stageName: Deploy_to_INT
+    stageDisplayName: 'Release-INT'
+    dependsOn: 
+    - Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'],'refs/heads/development'))
+    # Deployment will run only for updates in 'Development brnach'
+    poolname: Release Common Lab
+    envName: 'INT'
+    envGroup: 'Apex-Pos-Integration'
+    variableFilePath: 'variables/int-variables.yaml'
+
+###########################################################################################
+#                                     CERT DEPLOYMENT STAGE                               #
+###########################################################################################
+- template: deploy-stage.yaml
+  parameters: 
+    stageName: Deploy_to_CERT
+    stageDisplayName: 'Release-CERT'
+    dependsOn: 
+    - Build
+    condition: and(succeeded(),or(contains(variables['build.sourceBranch'], 'refs/heads/master'),startsWith(variables['build.sourceBranch'], 'refs/heads/Release/')))
+    # Deployment will run only for updates in 'Master' and 'Release/release*'' branch
+    poolname: Release Common Lab
+    envName: 'CERT'
+    envGroup: 'Apex-Pos-Certification'
+    variableFilePath: 'variables/cert-variables.yaml'
+
+# ###########################################################################################
+# #                                   PROD DEPLOYMENT STAGE                                 #
+# ###########################################################################################
+- template: deploy-stage.yaml
+  parameters: 
+    stageName: Deploy_to_PROD
+    stageDisplayName: 'Release-PROD'
+    dependsOn: 
+    - Build
+    - Deploy_to_CERT
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'],'refs/heads/master'))
+    # Deployment will run only for updates in 'MASTER' branch
+    poolname: Release Common Prod
+    envName: 'PROD'
+    envGroup: 'Apex-Pos-Production'
+    variableFilePath: 'variables/prod-variables.yaml'
+   

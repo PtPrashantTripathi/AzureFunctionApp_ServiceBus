@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Apex_STIBO_KIM_Integration</name>
+    </assembly>
+    <members>
+        <member name="T:Apex_STIBO_KIM_Integration.AdlsAdapter">
+            <summary>
+            AdlsAdapter class
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.AdlsAdapter.#ctor(Azure.Storage.Files.DataLake.DataLakeServiceClient,Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="_datalakeserviceClient"></param>
+            <param name="loggerAdapter"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.AdlsAdapter.CreateFileAsync(System.String,System.String,System.String)">
+            <summary>
+            Connect and update data file into adls raw layer
+            </summary>
+            <param name="PosData"></param>
+            <param name="FilePath"></param>
+            <param name="FileName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter">
+            <summary>
+            Telemetry logging for all activities
+            </summary>
+        </member>
+        <member name="P:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter._appInsights">
+            <summary>
+            Telemetry client
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.#ctor(Microsoft.ApplicationInsights.TelemetryClient)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="telemetryClient"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogInformation(System.String)">
+            <summary>
+            Log information
+            </summary>
+            <param name="informationMessage"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogInformation(System.String,System.String)">
+            <summary>
+            Log Information with body
+            </summary>
+            <param name="informationMessage"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogEvent(System.String)">
+            <summary>
+            Log event without body
+            </summary>
+            <param name="informationMessage"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogEvent(System.String,System.String)">
+            <summary>
+            Log event with a body / parameters
+            </summary>
+            <param name="informationMessage"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogError(System.Exception)">
+            <summary>
+            Log error without body
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogError(System.Exception,System.String)">
+            <summary>
+            Log Error with a body / parameters
+            </summary>
+            <param name="exception"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.LogError(System.Exception,System.String,System.String)">
+            <summary>
+            Log error with exception body and apiUrl
+            </summary>
+            <param name="exception"></param>
+            <param name="body"></param>
+            <param name="apiUrl"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Adapter.LoggerAdapter.GetLogInfo(System.String,System.String)">
+            <summary>
+            Get the Log Info in Dictionary object
+            </summary>
+            <param name="body"></param>
+            <param name="apiUrl"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter">
+            <summary>
+            LoggerAdapter Interface
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogError(System.Exception,System.String)">
+            <summary>
+            Log Error with a body / parameters
+            </summary>
+            <param name="exception"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogError(System.Exception)">
+            <summary>
+            Log error without body
+            </summary>
+            <param name="exception"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogInformation(System.String)">
+            <summary>
+            Log information
+            </summary>
+            <param name="informationMessage"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogInformation(System.String,System.String)">
+            <summary>
+            Log Information with body
+            </summary>
+            <param name="informationMessage"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogError(System.Exception,System.String,System.String)">
+            <summary>
+            Log error with exception body and apiUrl
+            </summary>
+            <param name="exception"></param>
+            <param name="body"></param>
+            <param name="apiUrl"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogEvent(System.String,System.String)">
+            <summary>
+            Log event with a body / parameters
+            </summary>
+            <param name="informationMessage"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter.LogEvent(System.String)">
+            <summary>
+            Log event without body
+            </summary>
+            <param name="informationMessage"></param>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.Constants">
+            <summary>
+            Holds all the information that are constant
+            </summary>
+        </member>
+        <member name="F:Apex_STIBO_KIM_Integration.Constants.Account_Name">
+            <summary>
+            Adls Account Name
+            </summary>
+        </member>
+        <member name="F:Apex_STIBO_KIM_Integration.Constants.StiboKIM_DirectoryPath">
+            <summary>
+            Adls StiboKIM Directory Path
+            </summary>
+        </member>
+        <member name="F:Apex_STIBO_KIM_Integration.Constants.Container_Name">
+            <summary>
+            Name of Container
+            </summary>
+        </member>
+        <member name="F:Apex_STIBO_KIM_Integration.Constants.Service_Bus_URL">
+            <summary>
+            Service Bus URL
+            </summary>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.IAdlsAdapter">
+            <summary>
+            AdlsAdapter Interface
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.IAdlsAdapter.CreateFileAsync(System.String,System.String,System.String)">
+            <summary>
+            CreateFileAsync interface
+            </summary>
+            <param name="PosData"></param>
+            <param name="FilePath"></param>
+            <param name="FileName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.Adhoc">
+            <summary>
+            Adhoc class
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Adhoc.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Apex_STIBO_KIM_Integration.IAdlsAdapter,Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter)">
+            <summary>
+            test Constructors
+            </summary>
+            <param name="config"></param>
+            <param name="adlsAdapter"></param>
+            <param name="loggerAdapter"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Adhoc.Run(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            This Function fetches Pos details via API insted of Topic
+            </summary>
+            <param name="req"></param>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.STIBO_KIM_DLQ_Integration">
+            <summary>
+            STIBO_KIM_DLQ_Integration class
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.STIBO_KIM_DLQ_Integration.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Apex_STIBO_KIM_Integration.IAdlsAdapter,Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter)">
+            <summary>
+            STIBO_KIM_DLQ_Integration Constructors
+            </summary>
+            <param name="config"></param>
+            <param name="adlsAdapter"></param>
+            <param name="loggerAdapter"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.STIBO_KIM_DLQ_Integration.Run(Microsoft.Azure.ServiceBus.Message,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            This Function fetches Pos details from Topic
+            </summary>
+            <param name="MessageData"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.STIBO_KIM_Integration">
+            <summary>
+            STIBO_KIM_Integration class
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.STIBO_KIM_Integration.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Apex_STIBO_KIM_Integration.IAdlsAdapter,Apex_STIBO_KIM_Integration.Data.Interface.ILoggerAdapter)">
+            <summary>
+            STIBO_KIM_Integration Constructors
+            </summary>
+            <param name="config"></param>
+            <param name="adlsAdapter"></param>
+            <param name="loggerAdapter"></param>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.STIBO_KIM_Integration.Run(Microsoft.Azure.ServiceBus.Message,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            This Function fetches Pos details from Topic
+            </summary>
+            <param name="MessageData"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Apex_STIBO_KIM_Integration.Startup">
+            <summary>
+            StartUp class
+            </summary>
+        </member>
+        <member name="M:Apex_STIBO_KIM_Integration.Startup.Configure(Microsoft.Azure.Functions.Extensions.DependencyInjection.IFunctionsHostBuilder)">
+            <summary>
+            Configure setting
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>
