@@ -43,7 +43,3 @@ This project is licensed under the [MIT License](LICENSE). Feel free to use, mod
 ## Issues and Support
 
 If you encounter any issues or have questions, please [create an issue](https://github.com/PtPrashantTripathi/AzureFunctionApp_ServiceBus/issues) in this repository, and we'll do our best to assist you.
-
----
-
-l
