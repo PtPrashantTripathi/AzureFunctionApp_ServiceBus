@@ -1,12 +1,12 @@
 ﻿using Azure.Storage.Files.DataLake;
-using Apex_STIBO_KIM_Integration.Data.Interface;
+using EDaA_STIBO_VIM_Integration.Data.Interface;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apex_STIBO_KIM_Integration
+namespace EDaA_STIBO_VIM_Integration
 {
     /// <summary>
     /// AdlsAdapter class
@@ -37,11 +37,11 @@ namespace Apex_STIBO_KIM_Integration
         /// <summary>
         /// Connect and update data file into adls raw layer
         /// </summary>
-        /// <param name="PosData"></param>
+        /// <param name="ProductData"></param>
         /// <param name="FilePath"></param>
         /// <param name="FileName"></param>
         /// <returns></returns>
-        public async Task CreateFileAsync(string PosData, string FilePath, string FileName)
+        public async Task CreateFileAsync(string ProductData, string FilePath, string FileName)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Apex_STIBO_KIM_Integration
                     if (fileClient != null)
                     {
                         // Convert json property into a stream
-                        byte[] byteArray = Encoding.ASCII.GetBytes(PosData);
+                        byte[] byteArray = Encoding.ASCII.GetBytes(ProductData);
                         Stream stream = new MemoryStream(byteArray);
 
                         // Write the stream to the file and close
@@ -77,11 +77,10 @@ namespace Apex_STIBO_KIM_Integration
             catch (Exception ex)
             {
                 if (Logger != null)
-                    Logger.LogError(ex, $"Custom Message#Apex_STIBO_KIM_Integration/AdlsAdapter : Failed! => Unable to process CreateFileAsync function. {ex.Message}");
+                    Logger.LogError(ex, $"Custom Message#EDaA_STIBO_VIM_Integration/AdlsAdapter : Failed! => Unable to process CreateFileAsync function. {ex.Message}");
                 throw;
             }
         }
         #endregion
     }
 }
-

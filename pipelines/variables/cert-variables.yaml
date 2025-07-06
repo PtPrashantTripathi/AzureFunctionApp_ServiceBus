@@ -7,10 +7,8 @@
 variables:
 
     azureSubscription: 'Azure DevOps - Enterprise Data NonProduction'
-    appName: 'fa-np-ea2-apex-kim-integration-cert'
-#AppSetting Variables    
-    ServiceBusTopic: 'topic-kim-integration-cert'
+    appName: 'fa-np-ea2-edaa-vim-integration-cert'
+#AppSetting Variables
+    ServiceBusTopic: 'topic-vim-integration-cert'
     ServiceBusURL: 'Endpoint=sb://sb-np-ea2-merch.servicebus.windows.net/;Authentication=ManagedIdentity'
-    AccountName: 'saea2ragrsnpapexdlakecrt'   
-   
-
+    AccountName: 'saea2ragrsnpedaadlakecrt'

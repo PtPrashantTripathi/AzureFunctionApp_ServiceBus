@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Apex_STIBO_KIM_Integration.Data.Interface
+namespace EDaA_STIBO_VIM_Integration.Data.Interface
 {
     /// <summary>
     /// LoggerAdapter Interface

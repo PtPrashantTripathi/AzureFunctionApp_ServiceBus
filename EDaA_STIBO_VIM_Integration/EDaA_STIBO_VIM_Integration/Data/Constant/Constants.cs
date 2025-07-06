@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Apex_STIBO_KIM_Integration
+namespace EDaA_STIBO_VIM_Integration
 {
     /// <summary>
     /// Holds all the information that are constant
@@ -13,9 +13,9 @@ namespace Apex_STIBO_KIM_Integration
         /// </summary>
         public const string Account_Name = "AccountName";
         /// <summary>
-        /// Adls StiboKIM Directory Path
+        /// Adls StiboVIM Directory Path
         /// </summary>
-        public const string StiboKIM_DirectoryPath = "StiboKIM_DirectoryPath";
+        public const string StiboVIM_DirectoryPath = "StiboVIM_DirectoryPath";
         /// <summary>
         /// Name of Container
         /// </summary>

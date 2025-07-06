@@ -21,6 +21,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Apex_STIBO_KIM_Integration\Apex_STIBO_KIM_Integration.csproj" />
+    <ProjectReference Include="..\EDaA_STIBO_VIM_Integration\EDaA_STIBO_VIM_Integration.csproj" />
   </ItemGroup>
 </Project>

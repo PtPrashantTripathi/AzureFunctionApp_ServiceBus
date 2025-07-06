@@ -1,10 +1,10 @@
-﻿using Apex_STIBO_KIM_Integration.Data.Interface;
+﻿using EDaA_STIBO_VIM_Integration.Data.Interface;
 using Microsoft.ApplicationInsights;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Apex_STIBO_KIM_Integration.Data.Adapter
+namespace EDaA_STIBO_VIM_Integration.Data.Adapter
 {
     /// <summary>
     /// Telemetry logging for all activities
@@ -13,7 +13,7 @@ namespace Apex_STIBO_KIM_Integration.Data.Adapter
     public class LoggerAdapter : ILoggerAdapter
     {
         #region Constants
-        private const string LOG_INFO_TEXT = "Apex_STIBO_KIM_Integration";
+        private const string LOG_INFO_TEXT = "EDaA_STIBO_VIM_Integration";
         #endregion
 
         #region Properties
@@ -183,9 +183,9 @@ namespace Apex_STIBO_KIM_Integration.Data.Adapter
                 if (!string.IsNullOrWhiteSpace(body))
                 {
                     var strBody = body.Split('|');
-                    foreach (var sku in strBody)
+                    foreach (var item in strBody)
                     {
-                        var strLog = sku.Split('#');
+                        var strLog = item.Split('#');
                         if (strLog.Length > 1)
                             properties.Add(strLog[0], strLog[1]);
                         else

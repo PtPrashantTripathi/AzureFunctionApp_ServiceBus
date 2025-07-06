@@ -2,9 +2,9 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apex_STIBO_KIM_Integration", "Apex_STIBO_KIM_Integration\Apex_STIBO_KIM_Integration.csproj", "{00E79A6F-308C-4BEA-BD3C-6BE09756AA91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDaA_STIBO_VIM_Integration", "EDaA_STIBO_VIM_Integration\EDaA_STIBO_VIM_Integration.csproj", "{00E79A6F-308C-4BEA-BD3C-6BE09756AA91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apex_STIBO_KIM_Integration_Test", "Apex_STIBO_KIM_Integration_Test\Apex_STIBO_KIM_Integration_Test.csproj", "{6029B221-C34C-414F-ACA2-C8226A62611A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDaA_STIBO_VIM_Integration_Test", "EDaA_STIBO_VIM_Integration_Test\EDaA_STIBO_VIM_Integration_Test.csproj", "{6029B221-C34C-414F-ACA2-C8226A62611A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

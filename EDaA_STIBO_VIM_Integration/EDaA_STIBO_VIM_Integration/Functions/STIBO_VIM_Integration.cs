@@ -1,4 +1,4 @@
-using Apex_STIBO_KIM_Integration.Data.Interface;
+using EDaA_STIBO_VIM_Integration.Data.Interface;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
@@ -7,27 +7,27 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Apex_STIBO_KIM_Integration
+namespace EDaA_STIBO_VIM_Integration
 {
     /// <summary>
-    /// STIBO_KIM_DLQ_Integration class
+    /// STIBO_VIM_Integration class
     /// </summary>
-    public class STIBO_KIM_DLQ_Integration
+    public class STIBO_VIM_Integration
     {
         #region Private Variables
         private readonly IAdlsAdapter DataAdapter;
         private ILoggerAdapter Logger { get; set; }
-        private readonly string directoryPath = Environment.GetEnvironmentVariable(Constants.StiboKIM_DirectoryPath);
+        private readonly string directoryPath = Environment.GetEnvironmentVariable(Constants.StiboVIM_DirectoryPath);
         #endregion
 
         #region Constructor
         /// <summary>
-        /// STIBO_KIM_DLQ_Integration Constructors
+        /// STIBO_VIM_Integration Constructors
         /// </summary>
         /// <param name="config"></param>
         /// <param name="adlsAdapter"></param>
         /// <param name="loggerAdapter"></param>
-        public STIBO_KIM_DLQ_Integration(IConfiguration config, IAdlsAdapter adlsAdapter, ILoggerAdapter loggerAdapter)
+        public STIBO_VIM_Integration(IConfiguration config, IAdlsAdapter adlsAdapter, ILoggerAdapter loggerAdapter)
         {
             DataAdapter = adlsAdapter;
             Logger = loggerAdapter;
@@ -36,13 +36,13 @@ namespace Apex_STIBO_KIM_Integration
 
         #region Functions
         /// <summary>
-        /// This Function fetches Pos details from Topic
+        /// This Function fetches Product details from Topic
         /// </summary>
         /// <param name="MessageData"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [FunctionName("STIBO_KIM_DLQ_Integration")]
-        public async Task Run([ServiceBusTrigger("%StiboKIM_ServiceBusTopic%" + "/" + "Subscriptions" + "/" + "%StiboKIM_ServiceBusSubscription%" + "%deadLetterQueuePath%", Connection = Constants.Service_Bus_URL)] Message MessageData, ILogger log)
+        [FunctionName("STIBO_VIM_Integration")]
+        public async Task Run([ServiceBusTrigger("%StiboVIM_ServiceBusTopic%", "%StiboVIM_ServiceBusSubscription%", Connection = Constants.Service_Bus_URL)] Message MessageData, ILogger log)
         {
             try
             {
@@ -73,21 +73,21 @@ namespace Apex_STIBO_KIM_Integration
                 var FileName = $"{CreateGuid}_{SequenceNumber}.xml";
 
                 // Get Message Body
-                string PosData = Encoding.UTF8.GetString(MessageData.Body);
+                string ProductData = Encoding.UTF8.GetString(MessageData.Body);
 
                 if (log != null)
-                    log.LogInformation($"STIBO_KIM_DLQ_Integration - ServiceBus topic trigger Started Processing The messagesSequenceNumber : {SequenceNumber} ");
+                    log.LogInformation($"STIBO_VIM_Integration - ServiceBus topic trigger Started Processing The messagesSequenceNumber : {SequenceNumber} ");
 
                 // Write File to ADLS
-                await DataAdapter.CreateFileAsync(PosData, FilePath, FileName);
+                await DataAdapter.CreateFileAsync(ProductData, FilePath, FileName);
 
                 if (log != null)
-                    log.LogInformation("STIBO_KIM_DLQ_Integration - ServiceBus triggered successfully");
+                    log.LogInformation("STIBO_VIM_Integration - ServiceBus triggered successfully");
             }
             catch (Exception ex)
             {
                 if (Logger != null)
-                    Logger.LogError(ex, $"Exception: Unable to write message STIBO_KIM_DLQ_Integration seen Exception {ex.Message}");
+                    Logger.LogError(ex, $"Exception: Unable to write message STIBO_VIM_Integration seen Exception {ex.Message}");
                 throw;
             }
         }

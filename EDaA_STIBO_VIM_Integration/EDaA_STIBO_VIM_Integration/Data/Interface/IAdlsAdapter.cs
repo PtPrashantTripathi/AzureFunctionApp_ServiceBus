@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Apex_STIBO_KIM_Integration
+namespace EDaA_STIBO_VIM_Integration
 {
     /// <summary>
     /// AdlsAdapter Interface
@@ -10,10 +10,10 @@ namespace Apex_STIBO_KIM_Integration
         /// <summary>
         /// CreateFileAsync interface
         /// </summary>
-        /// <param name="PosData"></param>
+        /// <param name="ProductData"></param>
         /// <param name="FilePath"></param>
         /// <param name="FileName"></param>
         /// <returns></returns>
-        Task CreateFileAsync(string PosData, string FilePath, string FileName);
+        Task CreateFileAsync(string ProductData, string FilePath, string FileName);
     }
 }

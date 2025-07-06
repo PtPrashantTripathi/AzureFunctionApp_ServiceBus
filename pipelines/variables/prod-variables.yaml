@@ -7,10 +7,8 @@
 variables:
 
     azureSubscription: 'Azure DevOps - Enterprise Data Production'
-    appName: 'fa-ea2-apex-kim-integration'
-#AppSetting Variables    
-    ServiceBusTopic: 'topic-kim-integration'
+    appName: 'fa-ea2-edaa-vim-integration'
+#AppSetting Variables
+    ServiceBusTopic: 'topic-vim-integration'
     ServiceBusURL: 'Endpoint=sb://sb-ea2-merch.servicebus.windows.net/;Authentication=ManagedIdentity'
-    AccountName: 'saea2ragrsapexdatalake'   
-   
-
+    AccountName: 'saea2ragrsedaadatalake'

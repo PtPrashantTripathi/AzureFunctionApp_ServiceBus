@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Apex_STIBO_KIM_Integration_Test
+namespace EDaA_STIBO_VIM_Integration_Test
 {
     [ExcludeFromCodeCoverage]
     public class TestBase
@@ -15,7 +15,7 @@ namespace Apex_STIBO_KIM_Integration_Test
         private IConfiguration _config;
 
         /// <summary>
-        /// Configuration Public property        
+        /// Configuration Public property
         /// </summary>
         protected IConfiguration Configuration
         {

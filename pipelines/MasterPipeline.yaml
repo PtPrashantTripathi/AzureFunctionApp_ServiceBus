@@ -1,8 +1,8 @@
 ####################################################################################################################################
-# Ref: Build and TEST .Net core projects 
+# Ref: Build and TEST .Net core projects
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
 
-# Unable to use Path filter as it does not fit our expectations. 
+# Unable to use Path filter as it does not fit our expectations.
 # Please Disable/Pause the Pipeline and make the changes and once the YAML changes are moved to Development 'Enable' the PIpeline
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/repos/azure-repos-git?view=azure-devops&tabs=yaml#behavior-of-triggers-when-new-branches-are-created
 ####################################################################################################################################
@@ -16,7 +16,7 @@ trigger:
     - master
 
 #  paths:
-#    exclude: 
+#    exclude:
 #      - 'pipelines/*'
 
 ###########################################################################################
@@ -35,7 +35,7 @@ stages:
     variables:
       buildConfiguration: 'Release'
     pool:
-      name: Build Common Lab 
+      name: Build Common Lab
     steps:
     - task: NuGetCommand@2
       displayName: NuGet Restore
@@ -43,7 +43,7 @@ stages:
         command: 'restore'
         restoreSolution: '**/*.sln'
         feedsToUse: 'config'
-        nugetConfigPath: 'D:\Apex\TFS\nuget.config'
+        nugetConfigPath: 'D:\Meijer\TFS\nuget.config'
 
     - task: DotNetCoreCLI@2
       displayName: DotNetBuild
@@ -53,7 +53,7 @@ stages:
           **/*.csproj
           !**/*Test.csproj
         arguments: '--output publish_output --configuration $(buildConfiguration)'
-        
+
     - task: DotNetCoreCLI@2
       displayName: UnitTest
       inputs:
@@ -103,48 +103,47 @@ stages:
 #                                     DEV DEPLOYMENT STAGE                                #
 ###########################################################################################
 - template: deploy-stage.yaml
-  parameters: 
+  parameters:
     stageName: Deploy_to_INT
     stageDisplayName: 'Release-INT'
-    dependsOn: 
+    dependsOn:
     - Build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'],'refs/heads/development'))
     # Deployment will run only for updates in 'Development brnach'
     poolname: Release Common Lab
     envName: 'INT'
-    envGroup: 'Apex-Pos-Integration'
+    envGroup: 'EDaA-Product-Integration'
     variableFilePath: 'variables/int-variables.yaml'
 
 ###########################################################################################
 #                                     CERT DEPLOYMENT STAGE                               #
 ###########################################################################################
 - template: deploy-stage.yaml
-  parameters: 
+  parameters:
     stageName: Deploy_to_CERT
     stageDisplayName: 'Release-CERT'
-    dependsOn: 
+    dependsOn:
     - Build
     condition: and(succeeded(),or(contains(variables['build.sourceBranch'], 'refs/heads/master'),startsWith(variables['build.sourceBranch'], 'refs/heads/Release/')))
     # Deployment will run only for updates in 'Master' and 'Release/release*'' branch
     poolname: Release Common Lab
     envName: 'CERT'
-    envGroup: 'Apex-Pos-Certification'
+    envGroup: 'EDaA-Product-Certification'
     variableFilePath: 'variables/cert-variables.yaml'
 
 # ###########################################################################################
 # #                                   PROD DEPLOYMENT STAGE                                 #
 # ###########################################################################################
 - template: deploy-stage.yaml
-  parameters: 
+  parameters:
     stageName: Deploy_to_PROD
     stageDisplayName: 'Release-PROD'
-    dependsOn: 
+    dependsOn:
     - Build
     - Deploy_to_CERT
     condition: and(succeeded(), eq(variables['Build.SourceBranch'],'refs/heads/master'))
     # Deployment will run only for updates in 'MASTER' branch
     poolname: Release Common Prod
     envName: 'PROD'
-    envGroup: 'Apex-Pos-Production'
+    envGroup: 'EDaA-Product-Production'
     variableFilePath: 'variables/prod-variables.yaml'
-   

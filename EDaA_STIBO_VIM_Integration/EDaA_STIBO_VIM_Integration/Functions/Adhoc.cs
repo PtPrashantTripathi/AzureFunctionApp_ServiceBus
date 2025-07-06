@@ -1,4 +1,4 @@
-using Apex_STIBO_KIM_Integration.Data.Interface;
+using EDaA_STIBO_VIM_Integration.Data.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Apex_STIBO_KIM_Integration
+namespace EDaA_STIBO_VIM_Integration
 {
     /// <summary>
     /// Adhoc class
@@ -20,7 +20,7 @@ namespace Apex_STIBO_KIM_Integration
         #region Private Variables
         private readonly IAdlsAdapter DataAdapter;
         private ILoggerAdapter Logger { get; set; }
-        private readonly string directoryPath = Environment.GetEnvironmentVariable(Constants.StiboKIM_DirectoryPath);
+        private readonly string directoryPath = Environment.GetEnvironmentVariable(Constants.StiboVIM_DirectoryPath);
         #endregion
 
 
@@ -40,13 +40,13 @@ namespace Apex_STIBO_KIM_Integration
 
         #region Functions
         /// <summary>
-        /// This Function fetches Pos details via API insted of Topic
+        /// This Function fetches Product details via API insted of Topic
         /// </summary>
         /// <param name="req"></param>
 
-        [FunctionName("stibo_kim_adhoc")]
+        [FunctionName("stibo_vim_adhoc")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "stibo_kim_adhoc")]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "stibo_vim_adhoc")]
             HttpRequest req)
         {
             try
@@ -82,7 +82,7 @@ namespace Apex_STIBO_KIM_Integration
                 var FileName = $"{CreateGuid}_{SequenceNumber}.xml";
 
                 if (Logger != null)
-                    Logger.LogInformation($"STIBO_KIM_DLQ_Integration - ServiceBus topic trigger Started Processing");
+                    Logger.LogInformation($"STIBO_VIM_DLQ_Integration - ServiceBus topic trigger Started Processing");
 
                 if (req.Headers.ContainsKey("path"))
                 {
@@ -95,7 +95,7 @@ namespace Apex_STIBO_KIM_Integration
                 await DataAdapter.CreateFileAsync(MessageData, FilePath, FileName);
 
                 if (Logger != null)
-                    Logger.LogInformation("STIBO_KIM_ADHOC - ServiceBus triggered successfully");
+                    Logger.LogInformation("STIBO_VIM_ADHOC - ServiceBus triggered successfully");
 
                 // return success
                 return new OkObjectResult("ok");
@@ -103,7 +103,7 @@ namespace Apex_STIBO_KIM_Integration
             catch (Exception ex)
             {
                 if (Logger != null)
-                    Logger.LogError(ex, $"Exception: Unable to write message STIBO_KIM_ADHOC seen Exception {ex.Message}");
+                    Logger.LogError(ex, $"Exception: Unable to write message STIBO_VIM_ADHOC seen Exception {ex.Message}");
                 throw;
             }
         }

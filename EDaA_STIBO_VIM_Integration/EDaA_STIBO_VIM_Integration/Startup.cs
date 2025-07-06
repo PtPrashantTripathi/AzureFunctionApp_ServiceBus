@@ -1,16 +1,16 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Storage.Files.DataLake;
-using Apex_STIBO_KIM_Integration.Data.Adapter;
-using Apex_STIBO_KIM_Integration.Data.Interface;
+using EDaA_STIBO_VIM_Integration.Data.Adapter;
+using EDaA_STIBO_VIM_Integration.Data.Interface;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: FunctionsStartup(typeof(Apex_STIBO_KIM_Integration.Startup))]
-namespace Apex_STIBO_KIM_Integration
+[assembly: FunctionsStartup(typeof(EDaA_STIBO_VIM_Integration.Startup))]
+namespace EDaA_STIBO_VIM_Integration
 {
     /// <summary>
     /// StartUp class
